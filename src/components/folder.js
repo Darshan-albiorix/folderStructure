@@ -11,6 +11,7 @@ function Folder() {
     children: [],
   });
   const [folderArray, setFolderArray] = useState([]);
+  const [toggle, setToggle] = useState(false);
   const handleSubmit = (e) => {
     e.preventDefault();
     setFolderArray([...folderArray, folderName]);
@@ -20,11 +21,27 @@ function Folder() {
       name: "",
       children: [],
     });
+    setToggle(false);
   };
 
   return (
     <div>
       <div>
+        <div style={{ marginLeft: "4px", marginBottom: "4px" }}>
+          <button onClick={() => setToggle(true)}>Add folder to root</button>
+        </div>
+      </div>
+      {folderArray.map((item) => {
+        return (
+          <SubFolder
+            folder={item}
+            folderArray={folderArray}
+            setFolderArray={setFolderArray}
+            key={item.id}
+          />
+        );
+      })}
+      {toggle && (
         <form
           onSubmit={handleSubmit}
           style={{ display: "flex", marginLeft: "4px" }}
@@ -42,26 +59,16 @@ function Folder() {
           />
           <div>
             <button type="submit">add</button>
-            <button type="button">Delete</button>
+            <button type="button" onClick={() => setToggle(false)}>
+              Delete
+            </button>
           </div>
         </form>
-      </div>
+      )}
 
-      {folderArray.map((item) => {
-        return (
-          <SubFolder
-            name={item.name}
-            id={item.id}
-            children={item.children}
-            folderArray={folderArray}
-            setFolderArray={setFolderArray}
-            key={item.id}
-          />
-        );
-      })}
-      {/* <textarea disabled style={{ marginTop: "10px", marginLeft: "4px" }}>
+      <p style={{ marginTop: "10px", marginLeft: "4px", width:"450px", height:"250px", overflow:"scroll" }}>
         {JSON.stringify(folderArray)}
-      </textarea> */}
+      </p>
     </div>
   );
 }
