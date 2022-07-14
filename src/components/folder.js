@@ -58,7 +58,7 @@ function Folder() {
             }
           />
           <div>
-            <button type="submit">add</button>
+            <button type="submit" disabled={!folderName.name} style={{margin:"0 2px"}}>add</button>
             <button type="button" onClick={() => setToggle(false)}>
               Delete
             </button>
@@ -66,7 +66,7 @@ function Folder() {
         </form>
       )}
 
-      <p style={{ marginTop: "10px", marginLeft: "4px", width:"450px", height:"250px", overflow:"scroll" }}>
+      <p style={{ marginTop: "10px", marginLeft: "4px", width:"450px", height:"250px", overflow:"auto", border:"1px solid black" }}>
         {JSON.stringify(folderArray)}
       </p>
     </div>
