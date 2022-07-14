@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import SubFolder from "./SubFolder";
+import { useForm } from "react-hook-form";
 
 function Folder() {
   const [folderName, setFolderName] = useState({
@@ -11,10 +12,11 @@ function Folder() {
   });
   const [folderArray, setFolderArray] = useState([]);
   const [toggle, setToggle] = useState(false);
+  const { register, handleSubmit,  formState: { errors }, reset } = useForm();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = () => {
     setFolderArray([...folderArray, folderName]);
+    reset();
     setFolderName({
       id: "",
       type: "",
@@ -23,6 +25,7 @@ function Folder() {
     });
     setToggle(false);
   };
+
 
   return (
     <div>
@@ -43,11 +46,12 @@ function Folder() {
       })}
       {toggle && (
         <form
-          onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
           style={{ display: "flex", marginLeft: "4px" }}
         >
           <input
             type="text"
+            {...register("name", { required: true })} 
             value={folderName.name}
             onChange={(e) =>
               setFolderName({
@@ -58,15 +62,30 @@ function Folder() {
             }
           />
           <div>
-            <button type="submit" disabled={!folderName.name} style={{margin:"0 2px"}}>add</button>
+            <button
+              type="submit"
+              style={{ margin: "0 2px" }}
+              >
+              add
+            </button>
             <button type="button" onClick={() => setToggle(false)}>
               Delete
             </button>
           </div>
         </form>
       )}
+      {errors.name && <span style={{marginLeft:"4px", color:"red"}}>Folder name is required</span>}
 
-      <p style={{ marginTop: "10px", marginLeft: "4px", width:"450px", height:"250px", overflow:"auto", border:"1px solid black" }}>
+      <p
+        style={{
+          marginTop: "10px",
+          marginLeft: "4px",
+          width: "450px",
+          height: "250px",
+          overflow: "auto",
+          border: "1px solid black",
+        }}
+      >
         {JSON.stringify(folderArray)}
       </p>
     </div>
