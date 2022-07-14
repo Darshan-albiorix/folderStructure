@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from "uuid";
 import SubFolder from "./SubFolder";
 
 function Folder() {
-  console.log("render");
   const [folderName, setFolderName] = useState({
     id: "",
     type: "folder",
@@ -12,6 +11,7 @@ function Folder() {
   });
   const [folderArray, setFolderArray] = useState([]);
   const [toggle, setToggle] = useState(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setFolderArray([...folderArray, folderName]);
